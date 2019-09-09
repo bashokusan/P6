@@ -9,11 +9,13 @@ use App\Form\TrickType;
 use App\Entity\Trick;
 use App\Form\CategoryType;
 use App\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Controller used to manage tricks
  *
  * @Route("/admin")
+ * @IsGranted("ROLE_USER")
  */
 class TrickManageController extends AbstractController
 {
@@ -73,6 +75,7 @@ class TrickManageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
 
         return $this->render('admin/edit.html.twig', [
@@ -82,11 +85,14 @@ class TrickManageController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="trick_admin_delete")
-     * On mettra l'id du trick dans l'url
+     * @Route("/delete/{id}", name="trick_admin_delete", methods="DELETE")
      */
-    public function delete()
+    public function delete(Trick $trick, Request $request)
     {
+        if($this->isCsrfTokenValid('delete'.$trick->getId(), $request->get('_token'))){
+            $this->entityManager->remove($trick);
+            $this->entityManager->flush();
+        }
         return $this->redirectToRoute('trick_admin');
     }
 

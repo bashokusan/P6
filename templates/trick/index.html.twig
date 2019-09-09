@@ -19,10 +19,11 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ trick.name }}</h5>
-                            <a href="{{ path('trick_detail', {'id': trick.id})}}" class="btn btn-primary">Détails</a>
+                            <a href="{{ path('trick_show', {'id': trick.id})}}" class="btn btn-primary">Détails</a>
                         </div>
                         <div class="card-footer text-muted">
                             <em>Créé le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
+                            {{ include('admin/_action.html.twig') }}
                         </div>
                     </div>
                 </div>
