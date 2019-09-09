@@ -12,5 +12,10 @@
     <h1>Trick name</h1>
 
     Ici se trouvera le détail d'un trick et les commentaires.
+    {{ form_start(form) }}
+    {{ form_row(form.author) }}
+    {{ form_row(form.content) }}
+    <button type="submit" class="btn btn-success">Commenter</button>
+    {{ form_end(form) }}
 </div>
 {% endblock %}

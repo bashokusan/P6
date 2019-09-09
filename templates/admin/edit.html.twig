@@ -12,6 +12,9 @@
     <h1>Mise à jour du trick</h1>
 
     Page de mise à jour du trick.
+
+    {{ include('admin/_form.html.twig', {button: 'Mettre à jour'})}}
+    
     Après sauvergarde, redirige vers <a href="{{ path('trick_admin_show') }}">Voir le trick</a>
 </div>
 {% endblock %}

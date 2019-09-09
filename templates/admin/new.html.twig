@@ -12,6 +12,9 @@
     <h1>Nouveau trick</h1>
 
     Page de création d'un trick.
+
+    {{ include('admin/_form.html.twig', {button: 'Publier'})}}
+    
     Après sauvergarde, redirige vers <a href="{{ path('trick_admin_show') }}">Voir le trick</a>
 </div>
 {% endblock %}

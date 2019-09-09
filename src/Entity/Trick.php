@@ -56,6 +56,7 @@ class Trick
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
     }
 

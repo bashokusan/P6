@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\CommentType;
+use App\Entity\Comment;
 
 class TrickController extends AbstractController
 {
@@ -23,8 +25,12 @@ class TrickController extends AbstractController
      */
     public function trickShow()
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+
         return $this->render('trick/trick_show.html.twig', [
             'controller_name' => 'TrickController',
+            'form'  => $form->createView()
         ]);
     }
 }

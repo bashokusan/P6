@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\TrickType;
+use App\Entity\Trick;
 
 /**
  * Controller used to manage tricks
@@ -38,8 +40,13 @@ class TrickManageController extends AbstractController
      */
     public function new()
     {
+        $trick = new Trick();
+
+        $form = $this->createForm(TrickType::class, $trick);
+
         return $this->render('admin/new.html.twig', [
             'controller_name' => 'TrickManageController',
+            'form'  => $form->createView()
         ]);
     }
 
@@ -48,8 +55,11 @@ class TrickManageController extends AbstractController
      */
     public function edit()
     {
+        $form = $this->createForm(TrickType::class, $trick);
+
         return $this->render('admin/edit.html.twig', [
             'controller_name' => 'TrickManageController',
+            'form'  => $form->createView()
         ]);
     }
 }
