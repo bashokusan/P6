@@ -16,10 +16,15 @@
             <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
 
             <h2>Commentaires :</h2>
-            {{ form_start(form) }}
-            {{ form_row(form.content) }}
-            <button type="submit" class="btn btn-success">Commenter</button>
-            {{ form_end(form) }}
+            {% if is_granted('ROLE_USER') %}
+                {{ form_start(form) }}
+                {{ form_row(form.content) }}
+                <button type="submit" class="btn btn-success">Commenter</button>
+                {{ form_end(form) }}
+            {% else %}
+                <p>Vous devez être connecté pour poster un commentaire</p>
+                <a class="btn btn-primary" href="{{ path('app_login') }}"> Se connecter</a>
+            {% endif %}
 
             {% for comment in trick.comments %}
                 <div>
