@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Administration{% endblock %}
+
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -7,11 +9,9 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Snowtricks</h1>
+    <h1>Mise à jour du trick</h1>
 
-    Ici se trouvera la liste des tricks.
-
-    Pour chaque trick :
-    <a href="{{ path('trick_detail') }}">Voir le détail d'un trick</a>
+    Page de mise à jour du trick.
+    Après sauvergarde, redirige vers <a href="{{ path('trick_admin_show') }}">Voir le trick</a>
 </div>
 {% endblock %}

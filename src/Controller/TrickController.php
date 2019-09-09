@@ -19,6 +19,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick", methods={"GET"}, name="trick_detail")
+     * On mettra le nom sluggé du trick dans l'url
      */
     public function trickShow()
     {
