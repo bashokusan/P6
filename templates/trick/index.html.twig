@@ -9,9 +9,26 @@
 <div class="example-wrapper">
     <h1>Snowtricks</h1>
 
-    Ici se trouvera la liste des tricks.
-
-    Pour chaque trick :
-    <a href="{{ path('trick_detail') }}">Voir le détail d'un trick</a>
+    <div class="container">
+        <div class="row flex">
+            {% for trick in tricks %}
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <em>{{ trick.category.name }}</em>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ trick.name }}</h5>
+                            <a href="{{ path('trick_detail', {'id': trick.id})}}" class="btn btn-primary">Détails</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <em>Créé le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
 </div>
 {% endblock %}

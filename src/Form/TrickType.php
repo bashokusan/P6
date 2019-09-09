@@ -20,7 +20,6 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
-            ->add('author')
         ;
     }
 

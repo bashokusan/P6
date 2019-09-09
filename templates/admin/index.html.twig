@@ -10,6 +10,9 @@
 
 <div class="example-wrapper">
     <h1>Liste des tricks</h1>
+    {% for message in app.flashes('success') %}
+          <p>{{ message }}</p>
+    {% endfor %}
 
     Page contenant tous les tricks dont l'auteur est l'utilisateur connecté
 

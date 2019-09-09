@@ -9,13 +9,22 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Trick name</h1>
+    <h1>{{ trick.name }}</h1>
+    <p>{{ trick.description }}</p>
+    <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
 
-    Ici se trouvera le détail d'un trick et les commentaires.
+    <h2>Commentaires :</h2>
     {{ form_start(form) }}
-    {{ form_row(form.author) }}
     {{ form_row(form.content) }}
     <button type="submit" class="btn btn-success">Commenter</button>
     {{ form_end(form) }}
+
+    {% for comment in trick.comments %}
+        <div>
+            {{ comment.author.pseudo }}
+            <em>{{ comment.createdAt | date('d/m/Y') }}</em>
+            <p>{{ comment.content | nl2br }}</p>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

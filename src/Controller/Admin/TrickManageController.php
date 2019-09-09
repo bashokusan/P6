@@ -41,12 +41,21 @@ class TrickManageController extends AbstractController
     /**
      * @Route("/new", name="trick_admin_new")
      */
-    public function new()
+    public function new(Request $request)
     {
         $trick = new Trick();
-        // $post->setAuthor($this->getUser());
+        $trick->setAuthor($this->getUser());
 
         $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+            $this->addFlash('success', 'Le trick a bien été ajouté');
+
+            return $this->redirectToRoute('trick_admin');
+        }
 
         return $this->render('admin/new.html.twig', [
             'controller_name' => 'TrickManageController',
