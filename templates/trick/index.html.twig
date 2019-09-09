@@ -7,12 +7,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Snowtricks</h1>
+    <h1>Les tricks</h1>
 
     <div class="container">
         <div class="row flex">
             {% for trick in tricks %}
-                <div class="col-3">
+                <div class="col-lg-4">
                     <div class="card">
                         <div class="card-header">
                             <em>{{ trick.category.name }}</em>
@@ -29,6 +29,6 @@
             {% endfor %}
         </div>
     </div>
-    
+
 </div>
 {% endblock %}

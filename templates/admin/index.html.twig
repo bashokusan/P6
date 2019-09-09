@@ -3,25 +3,13 @@
 {% block title %}Administration{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
+<div>
     <h1>Liste des tricks</h1>
     {% for message in app.flashes('success') %}
           <p>{{ message }}</p>
     {% endfor %}
-
-    Page contenant tous les tricks dont l'auteur est l'utilisateur connecté
-
     <ul>
         <li><a href="{{ path('trick_admin_new') }}">Créer un nouveau trick</a></li>
-        Pour chaque trick :
-        <li><a href="{{ path('trick_admin_show') }}">Voir le trick</a></li>
-        <li><a href="{{ path('trick_admin_edit') }}">Editer le trick</a></li>
     </ul>
-
 </div>
 {% endblock %}

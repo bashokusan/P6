@@ -64,12 +64,16 @@ class TrickManageController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="trick_admin_edit")
-     * On mettra l'id du trick dans l'url
+     * @Route("/edit/{id}", name="trick_admin_edit")
      */
-    public function edit()
+    public function edit(Trick $trick, Request $request)
     {
         $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $this->getDoctrine()->getManager()->flush();
+        }
 
         return $this->render('admin/edit.html.twig', [
             'controller_name' => 'TrickManageController',
