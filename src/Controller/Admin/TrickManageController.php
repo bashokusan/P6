@@ -4,8 +4,11 @@ namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use App\Form\TrickType;
 use App\Entity\Trick;
+use App\Form\CategoryType;
+use App\Entity\Category;
 
 /**
  * Controller used to manage tricks
@@ -41,6 +44,7 @@ class TrickManageController extends AbstractController
     public function new()
     {
         $trick = new Trick();
+        // $post->setAuthor($this->getUser());
 
         $form = $this->createForm(TrickType::class, $trick);
 
@@ -52,12 +56,44 @@ class TrickManageController extends AbstractController
 
     /**
      * @Route("/edit", name="trick_admin_edit")
+     * On mettra l'id du trick dans l'url
      */
     public function edit()
     {
         $form = $this->createForm(TrickType::class, $trick);
 
         return $this->render('admin/edit.html.twig', [
+            'controller_name' => 'TrickManageController',
+            'form'  => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/delete", name="trick_admin_delete")
+     * On mettra l'id du trick dans l'url
+     */
+    public function delete()
+    {
+        return $this->redirectToRoute('trick_admin');
+    }
+
+
+    /**
+     * @Route("/category/new", name="category_new")
+     */
+    public function newCategory(Request $request)
+    {
+        $category = new Category();
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->flush();
+        }
+
+        return $this->render('admin/category.html.twig', [
             'controller_name' => 'TrickManageController',
             'form'  => $form->createView()
         ]);

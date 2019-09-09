@@ -5,6 +5,7 @@
 {{ form_row(form.author) }}
 {{ form_row(form.name) }}
 {{ form_row(form.category) }}
+<a href="{{ path('category_new') }}">Créer une nouvelle catégorie</a>
 {{ form_row(form.description) }}
 <button type="submit" class="btn btn-primary">{{ button|default('Enregister')}}</button>
 
