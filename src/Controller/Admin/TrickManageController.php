@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Utils\Slugger;
 use App\Form\TrickType;
 use App\Entity\Trick;
 use App\Form\CategoryType;
@@ -51,10 +52,10 @@ class TrickManageController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
+            $trick->setSlug(Slugger::slugify($trick->getName()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
             $em->flush();
-            $this->addFlash('success', 'Le trick a bien été ajouté');
 
             return $this->redirectToRoute('trick_admin');
         }
@@ -74,6 +75,7 @@ class TrickManageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            $trick->setSlug(Slugger::slugify($trick->getName()));
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
