@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Utils\Slugger;
 use App\Form\TrickType;
+use App\Repository\TrickRepository;
 use App\Entity\Trick;
 use App\Form\CategoryType;
 use App\Entity\Category;
@@ -23,21 +24,24 @@ class TrickManageController extends AbstractController
     /**
      * @Route("/", name="trick_admin")
      */
-    public function index()
+    public function index(TrickRepository $repo)
     {
+        $tricks = $repo->findBy(['author' => $this->getUser()]);
+
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'TrickManageController',
+            'tricks' => $tricks
         ]);
     }
 
     /**
-     * @Route("/show", name="trick_admin_show")
-     * On mettra l'id du trick dans l'url
+     * @Route("/show/{id}", name="trick_admin_show")
      */
-    public function show()
+    public function show(Trick $trick)
     {
         return $this->render('admin/show.html.twig', [
             'controller_name' => 'TrickManageController',
+            'trick' => $trick
         ]);
     }
 
@@ -76,8 +80,9 @@ class TrickManageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $trick->setSlug(Slugger::slugify($trick->getName()));
+            $trick->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_admin_show', ['id' => $trick->getId()]);
         }
 
         return $this->render('admin/edit.html.twig', [
@@ -92,8 +97,9 @@ class TrickManageController extends AbstractController
     public function delete(Trick $trick, Request $request)
     {
         if($this->isCsrfTokenValid('delete'.$trick->getId(), $request->get('_token'))){
-            $this->entityManager->remove($trick);
-            $this->entityManager->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($trick);
+            $em->flush();
         }
         return $this->redirectToRoute('trick_admin');
     }
