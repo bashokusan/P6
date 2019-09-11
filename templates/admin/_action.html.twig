@@ -1,7 +1,7 @@
 {% if is_granted('ROLE_USER') %}
 <div>
     <a class="btn btn-info" href="{{ path('trick_admin_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-    <form method="POST" action="{{ path('trick_admin_delete', {'id': trick.id}) }}">
+    <form method="POST" action="{{ path('trick_admin_delete', {'id': trick.id}) }}" onsubmit="return confirm('Confirmer la suppression')">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
         <button class="btn btn-warning"><i class="fas fa-trash-alt"></i></button>

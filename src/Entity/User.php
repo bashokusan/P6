@@ -52,6 +52,16 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $confirm = 0;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -206,6 +216,30 @@ class User implements UserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getConfirm(): ?int
+    {
+        return $this->confirm;
+    }
+
+    public function setConfirm(int $confirm): self
+    {
+        $this->confirm = $confirm;
 
         return $this;
     }

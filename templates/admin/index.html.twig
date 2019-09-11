@@ -3,11 +3,16 @@
 {% block title %}Administration{% endblock %}
 
 {% block body %}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="p-3 mb-2 bg-{{ label }} text-white">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endfor %}
+
 <div>
     <h1>Vos tricks</h1>
-    {% for message in app.flashes('success') %}
-          <p>{{ message }}</p>
-    {% endfor %}
     <ul>
         <li><a href="{{ path('trick_admin_new') }}">Créer un nouveau trick</a></li>
     </ul>

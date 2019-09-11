@@ -3,6 +3,12 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('sucess') %}
+        <div class="p-3 mb-2 bg-info text-white">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
