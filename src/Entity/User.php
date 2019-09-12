@@ -39,7 +39,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne correspondent pas")
      */
     private $confirmPassword;
 
@@ -72,6 +71,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $resetToken;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar = "avatarDefault";
 
     public function __construct()
     {
@@ -275,6 +279,18 @@ class User implements UserInterface
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
