@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -36,6 +37,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne correspondent pas")
+     */
+    private $confirmPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -130,6 +136,18 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getConfirmPassword(): ?string
+    {
+        return $this->confirmPassword;
+    }
+
+    public function setConfirmPassword(string $confirmPassword): self
+    {
+        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }
