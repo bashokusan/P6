@@ -75,7 +75,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar = "avatarDefault";
+    private $avatar = "avatarDefault.png";
 
     public function __construct()
     {
