@@ -2,10 +2,11 @@
 
 {{ form_errors(form) }}
 
-{{ form_row(form.name) }}
 {{ form_row(form.category) }}
 <a href="{{ path('category_new') }}">Ajouter une catégorie</a>
+{{ form_row(form.name) }}
 {{ form_row(form.description) }}
+{{ form_row(form.media) }}
 <button type="submit" class="btn btn-primary">{{ button|default('Enregister')}}</button>
 
 {{ form_end(form) }}

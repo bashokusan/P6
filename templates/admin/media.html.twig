@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+{{ form_errors(form) }}
+
+{{ form_row(form.src) }}
+<button type="submit" class="btn btn-primary">Envoyer</button>
+
+{{ form_end(form) }}
+{% endblock %}

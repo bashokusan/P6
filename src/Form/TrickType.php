@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Trick;
 use App\Entity\Category;
+use App\Form\MediaUploadType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -19,6 +21,12 @@ class TrickType extends AbstractType
             ->add('category',  EntityType::class,[
                 'class' => Category::class,
                 'choice_label' => 'name',
+            ])
+            ->add('media', FileType::class, [
+                'mapped' => false,
+                'label' => 'Photo',
+                'required' => false,
+                'multiple' => true,
             ])
         ;
     }
