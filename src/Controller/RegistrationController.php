@@ -11,14 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use App\Utils\SendEmail;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, SendEmail $sendEmail): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, \Swift_Mailer $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,8 +37,18 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
-            $sendEmail->sendEmail($user);
+            $message = (new \Swift_Message('Confirmer votre inscription'))
+              ->setFrom('noreply@snowtricks.com')
+              ->setTo($user->getEmail())
+              ->setBody(
+                  $this->render(
+                      'emails/registration.html.twig',
+                      ['user' => $user]
+                  ),
+                  'text/html'
+              );
+            $mailer->send($message);
+
             $this->addFlash('success','Votre compte a bien été créé, un mail de confirmation vous a été envoyé.');
             return $this->redirectToRoute('trick_admin');
         }
