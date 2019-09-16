@@ -15,6 +15,8 @@ use App\Entity\Category;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Controller used to manage tricks
@@ -108,9 +110,13 @@ class TrickManageController extends AbstractController
     /**
      * @Route("/delete/{id}", name="trick_admin_delete", methods="DELETE")
      */
-    public function delete(Trick $trick, Request $request)
+    public function delete(Trick $trick, Request $request, Filesystem $filesystem)
     {
         if($this->isCsrfTokenValid('delete'.$trick->getId(), $request->get('_token'))){
+            $files = $trick->getImages();
+            foreach ($files as $img) {
+                $filesystem->remove($this->getParameter('media_directory').'/'.$img->getSrc());
+            }
             $em = $this->getDoctrine()->getManager();
             $em->remove($trick);
             $em->flush();
