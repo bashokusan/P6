@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MediaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
-class Media
+class Video
 {
     /**
      * @ORM\Id()
@@ -19,15 +19,10 @@ class Media
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $src;
+    private $url;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $alt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="media")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
@@ -37,26 +32,14 @@ class Media
         return $this->id;
     }
 
-    public function getSrc(): ?string
+    public function getUrl(): ?string
     {
-        return $this->src;
+        return $this->url;
     }
 
-    public function setSrc(string $src): self
+    public function setUrl(string $url): self
     {
-        $this->src = $src;
-
-        return $this;
-    }
-
-    public function getAlt(): ?string
-    {
-        return $this->alt;
-    }
-
-    public function setAlt(?string $alt): self
-    {
-        $this->alt = $alt;
+        $this->url = $url;
 
         return $this;
     }

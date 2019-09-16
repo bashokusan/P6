@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+* @UniqueEntity(fields={"name"}, message="There is already a trick with this name")
  */
 class Trick
 {
@@ -60,15 +62,22 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
-    private $media;
+    private $images;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $videos;
+
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
-        $this->media = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,33 +201,65 @@ class Trick
     }
 
     /**
-     * @return Collection|Media[]
+     * @return Collection|Image[]
      */
-    public function getMedia(): Collection
+    public function getImages(): Collection
     {
-        return $this->media;
+        return $this->images;
     }
 
-    public function addMedium(Media $medium): self
+    public function addImage(Image $image): self
     {
-        if (!$this->media->contains($medium)) {
-            $this->media[] = $medium;
-            $medium->setTrick($this);
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTrick($this);
         }
 
         return $this;
     }
 
-    public function removeMedium(Media $medium): self
+    public function removeImage(Image $image): self
     {
-        if ($this->media->contains($medium)) {
-            $this->media->removeElement($medium);
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($medium->getTrick() === $this) {
-                $medium->setTrick(null);
+            if ($image->getTrick() === $this) {
+                $image->setTrick(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

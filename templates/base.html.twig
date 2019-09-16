@@ -51,5 +51,68 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+{% block javascripts %}
+<script type="text/javascript">
+
+// setup an "add a tag" link
+var $addTagLink = $('<a href="#" class="add_tag_link">Ajouter</a>');
+var $newLinkLi = $('<li></li>').append($addTagLink);
+
+jQuery(document).ready(function() {
+// Get the ul that holds the collection of tags
+var $collectionHolder = $('ul.image');
+
+// add the "add a tag" anchor and li to the tags ul
+$collectionHolder.append($newLinkLi);
+
+// count the current form inputs we have (e.g. 2), use that as the new
+// index when inserting a new item (e.g. 2)
+$collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+$addTagLink.on('click', function(e) {
+// prevent the link from creating a "#" on the URL
+e.preventDefault();
+
+// add a new tag form (see code block below)
+addTagForm($collectionHolder, $newLinkLi);
+});
+
+});
+
+function addTagForm($collectionHolder, $newLinkLi) {
+// Get the data-prototype explained earlier
+var prototype = $collectionHolder.data('prototype');
+
+// get the new index
+var index = $collectionHolder.data('index');
+
+// Replace '$$name$$' in the prototype's HTML to
+// instead be a number based on how many items we have
+var newForm = prototype.replace(/__name__/g, index);
+
+// increase the index with one for the next item
+$collectionHolder.data('index', index + 1);
+
+// Display the form in the page in an li, before the "Add a tag" link li
+var $newFormLi = $('<li></li>').append(newForm);
+
+// also add a remove button, just for this example
+$newFormLi.append('<a href="#" class="remove-tag">x</a>');
+
+$newLinkLi.before($newFormLi);
+
+// handle the removal, just for this example
+$('.remove-tag').click(function(e) {
+e.preventDefault();
+
+$(this).parent().remove();
+
+return false;
+});
+}
+
+</script>
+{% endblock %}
     </body>
 </html>

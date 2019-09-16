@@ -5,7 +5,9 @@
 {% block body %}
 <div>
     <h1>Detail d'un trick</h1>
-
+    {% for img in trick.images %}
+        <img width="400" src="{{ asset('uploads/media/' ~ img.src) }}" alt="">
+    {% endfor %}
     <h1>{{ trick.name }}</h1>
     <p>{{ trick.description | nl2br }}</p>
     <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>

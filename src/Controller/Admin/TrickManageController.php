@@ -9,11 +9,12 @@ use App\Utils\Slugger;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use App\Entity\Trick;
-use App\Entity\Media;
+use App\Entity\Image;
 use App\Form\CategoryType;
-use App\Form\MediaUploadType;
 use App\Entity\Category;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * Controller used to manage tricks
@@ -60,29 +61,17 @@ class TrickManageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $trick->setSlug(Slugger::slugify($trick->getName()));
+            $files = $trick->getImages();
+            foreach ($files as $img) {
+                $file = $img->getFile();
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
+                $img->setSrc($newFilename);
+                $file->move($this->getParameter('media_directory'), $newFilename);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
             $em->flush();
-
-            $imgFile = $form['media']->getData();
-            if($imgFile){
-                foreach ($imgFile as $img) {
-                    $media = new Media();
-                    $originalFilename = pathinfo($img->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newFilename = $originalFilename.'-'.uniqid().'.'.$img->guessExtension();
-
-                    $img->move(
-                        $this->getParameter('media_directory'),
-                        $newFilename
-                    );
-                    $media->setSrc($newFilename);
-                    $media->setTrick($trick);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($media);
-                    $em->flush();
-                }
-            }
-
             $this->addFlash('success', 'Votre trick a bien été ajouté');
             return $this->redirectToRoute('trick_admin');
         }
@@ -149,20 +138,6 @@ class TrickManageController extends AbstractController
         }
 
         return $this->render('admin/category.html.twig', [
-            'controller_name' => 'TrickManageController',
-            'form'  => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/media/new", name="add_media")
-     */
-    public function addMedia(Request $request)
-    {
-        $media = new Media();
-        $form = $this->createForm(MediaUploadType::class, $media);
-
-        return $this->render('admin/media.html.twig', [
             'controller_name' => 'TrickManageController',
             'form'  => $form->createView()
         ]);

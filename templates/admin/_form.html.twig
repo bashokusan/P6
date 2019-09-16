@@ -6,7 +6,18 @@
 <a href="{{ path('category_new') }}">Ajouter une catégorie</a>
 {{ form_row(form.name) }}
 {{ form_row(form.description) }}
-{{ form_row(form.media) }}
+<h3>Images</h3>
+<ul class="image" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+    {% for img in form.images %}
+        <li>{{ form_row(img.file) }}</li>
+    {% endfor %}
+</ul>
+<h3>Vidéos</h3>
+<ul class="video" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+    {% for vid in form.videos %}
+        <li>{{ form_row(vid.url) }}</li>
+    {% endfor %}
+</ul>
 <button type="submit" class="btn btn-primary">{{ button|default('Enregister')}}</button>
 
 {{ form_end(form) }}
