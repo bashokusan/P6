@@ -2,99 +2,57 @@
 
 {{ form_errors(form) }}
 
-{{ form_row(form.category) }}
-<a href="{{ path('category_new') }}">Ajouter une catégorie</a>
-{{ form_row(form.name) }}
-{{ form_row(form.description) }}
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm-6">
+            <h4>Le trick</h4>
+            {{ form_row(form.category) }}
+            <a href="{{ path('category_new') }}">Ajouter une catégorie</a>
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+        </div>
 
-<h3>Images</h3>
-    <div class="image" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
-        {% for img in form.images %}
-            <div>{{ img.vars.value.src }}</div>
-            <div style="display:none">{{ form_row(img.file) }}</div>
-            <div style="display:none">{{ form_row(img.alt) }}</div>
-        {% endfor %}
+        <div class="col-sm-3">
+            <h4>Photos</h4>
+            <div class="images" id="img_list" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                {% for row in form.images %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                          <img width="100%" src="{{ asset('uploads/media/' ~ row.vars.value.src) }}" alt="{{ row.vars.value.alt }}">
+                        </div>
+                        <div style="display:none">
+                            {{ form_row(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <h4>Vidéos</h4>
+            <div class="videos" id="vid_list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+                {% for row in form.videos %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                        </div>
+                        <div style="display:none">
+                            {{ form_row(row) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
-<h3>Videos</h3>
-    <div class="video" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
-        {% for vid in form.videos %}
-            <div><a href="{{ vid.vars.value.url }}">{{ vid.vars.value.url }}</a></div>
-            <div style="display:none">{{ form_row(vid.url) }}</div>
-        {% endfor %}
-    </div>
 
-<div class="row form-group mt-3">
-    <div class="form_cancel col-md-offset-8 col-md-2 col-xs-4">
-	       <a href="{{ path('trick_admin') }}" class="btn btn-info btn-block">Annuler</a>
+    <div class="row form-group mt-3">
+        <div class="form_cancel col-md-offset-8 col-md-2 col-xs-4">
+    	       <a href="{{ path('trick_admin') }}" class="btn btn-info btn-block">Annuler</a>
+        </div>
+        <div class="form_submit col-md-2 col-xs-8">
+    	       <button type="submit" class="btn btn-primary">{{ button|default('Enregister')}}</button>
+        </div>
     </div>
-    <div class="form_submit col-md-2 col-xs-8">
-	       <button type="submit" class="btn btn-primary">{{ button|default('Enregister')}}</button>
-    </div>
-</div>
 
 {{ form_end(form) }}
-
-{% block javascript %}
-<script type="text/javascript">
-
-// setup an "add an item" link
-var $addItemLink = $("<a href='#' class='add_item_link btn btn-warning'><i class='fa fa-plus' aria-hidden='true'></i></a>");
-var $newLinkLi = $('<div></div>').append($addItemLink);
-
-jQuery(document).ready(function() {
-    // Get the ul that holds the collection of items
-    var $collectionHolder = $('div.image');
-    $collectionHolder.find('div').each(function() {
-        addItemFormDeleteLink($(this));
-    });
-    // add the "add an item" anchor and li to the items ul
-    $collectionHolder.append($newLinkLi);
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-    $addItemLink.on('click', function(e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-        // add a new item form (see code block below)
-        addImgForm($collectionHolder, $newLinkLi);
-    });
-});
-
-function addImgForm($collectionHolder, $newLinkLi) {
-    // Get the data-prototype explained earlier
-    var prototype = $collectionHolder.data('prototype');
-    // get the new index
-    var index = $collectionHolder.data('index');
-    // Replace '$$name$$' in the prototype's HTML to
-    // instead be a number based on how many items we have
-    var newForm = prototype.replace(/__name__/g, index);
-    // increase the index with one for the next item
-    $collectionHolder.data('index', index + 1);
-    // Display the form in the page in an li, before the "Add an item" link li
-    var $newFormLi = $('<div></div>').append(newForm);
-
-    // also add a remove button, just for this example
-    $newFormLi.append("<button type='button' class='btn btn-danger btn-xs remove-item'><i class='fa fa-times' aria-hidden='true'></i></button>");
-    $newLinkLi.before($newFormLi);
-    // handle the removal, just for this example
-    $('.remove-item').click(function(e) {
-        e.preventDefault();
-        $(this).parent().remove();
-        return false;
-    });
-}
-
-function addItemFormDeleteLink($itemFormLi) {
-    var $removeFormButton = $("<button type='button' class='btn btn-danger btn-xs remove-item'><i class='fa fa-times' aria-hidden='true'></i></button>");
-    $itemFormLi.append($removeFormButton);
-
-    $removeFormButton.on('click', function(e) {
-        // remove the li for the item form
-        $itemFormLi.remove();
-    });
-}
-
-</script>
-{% endblock %}
