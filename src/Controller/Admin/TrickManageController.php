@@ -95,10 +95,14 @@ class TrickManageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $trick->setSlug(Slugger::slugify($trick->getName()));
             $trick->setUpdatedAt(new \DateTime());
-            $this->getDoctrine()->getManager()->flush();
+            $files = $trick->getImages();
 
-            $this->addFlash('success', 'Votre trick a bien été mis à jour');
-            return $this->redirectToRoute('trick_admin_show', ['id' => $trick->getId()]);
+            dump($trick);
+
+            // $this->getDoctrine()->getManager()->flush();
+            //
+            // $this->addFlash('success', 'Votre trick a bien été mis à jour');
+            // return $this->redirectToRoute('trick_admin_show', ['id' => $trick->getId()]);
         }
 
         return $this->render('admin/edit.html.twig', [
