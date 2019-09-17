@@ -89,6 +89,7 @@ class TrickManageController extends AbstractController
      */
     public function edit(Trick $trick, Request $request)
     {
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
@@ -116,6 +117,7 @@ class TrickManageController extends AbstractController
      */
     public function delete(Trick $trick, Request $request, Filesystem $filesystem)
     {
+        $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
         if($this->isCsrfTokenValid('delete'.$trick->getId(), $request->get('_token'))){
             $files = $trick->getImages();
             foreach ($files as $img) {
