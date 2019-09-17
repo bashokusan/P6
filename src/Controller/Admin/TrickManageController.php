@@ -97,13 +97,21 @@ class TrickManageController extends AbstractController
             $trick->setSlug(Slugger::slugify($trick->getName()));
             $trick->setUpdatedAt(new \DateTime());
             $files = $trick->getImages();
-
+            foreach ($files as $img) {
+                if(!null == $file = $img->getFile()){
+                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
+                    $img->setSrc($newFilename);
+                    $file->move($this->getParameter('media_directory'), $newFilename);
+                }
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
             dump($trick);
+            $em->flush();
 
-            // $this->getDoctrine()->getManager()->flush();
-            //
-            // $this->addFlash('success', 'Votre trick a bien été mis à jour');
-            // return $this->redirectToRoute('trick_admin_show', ['id' => $trick->getId()]);
+            $this->addFlash('success', 'Votre trick a bien été mis à jour');
+            return $this->redirectToRoute('trick_admin_show', ['id' => $trick->getId()]);
         }
 
         return $this->render('admin/edit.html.twig', [

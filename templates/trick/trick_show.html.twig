@@ -4,9 +4,30 @@
 
 {% block body %}
     <div>
+        <div class="media images">
         {% for img in trick.images %}
-            <img width="400" src="{{ asset('uploads/media/' ~ img.src) }}" alt="">
+            <img width="400" src="{{ asset('uploads/media/' ~ img.src) }}" alt="{{ img.alt }}">
         {% endfor %}
+        </div>
+
+        <div class="media videos">
+            {% for vid in trick.videos %}
+                <iframe id="video{{ vid.id }}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <script>
+                    var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                    var url = "{{ vid.url }}";
+                    var match = url.match(regExp);
+                    if (match && match[2].length == 11)
+                    {
+                        var id = match[2];
+                        var embedlink = "http://www.youtube.com/embed/" + id;
+                        var iframe = document.getElementById("video{{ vid.id }}");
+                        iframe.src = embedlink;
+                    }
+                </script>
+            {% endfor %}
+        </div>
+
         <h1>{{ trick.name }}</h1>
         <p>{{ trick.description | nl2br }}</p>
         <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
@@ -15,6 +36,7 @@
         <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
         {% endif %}
     </div>
+    
     <div class="mt-4">
         <h2>Commentaires :</h2>
         {% if is_granted('ROLE_USER') %}
