@@ -1,6 +1,6 @@
 {% for comment in trick.comments | slice(start, length) %}
     <div class="media mt-4">
-        <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3" alt="avatar de {{ comment.author.pseudo }}" width="50">
+        <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3" alt="avatar de {{ comment.author.pseudo }}" width="50" class="avatar">
         <div class="media-body">
         <h5 class="mt-0">{{ comment.author.pseudo }} le {{ comment.createdAt | date('d/m/Y') }}</h5>
         {{ comment.content | nl2br }}

@@ -13,3 +13,70 @@ html{
   height: 100vh;
   background: center no-repeat url('../heroimg.jpg');
 }
+
+.navbar-nav{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+nav li{
+	margin: 0 1rem;
+}
+
+.user-feat{
+	display: flex;
+}
+
+.menu-label{
+	margin-left: 1rem;
+}
+
+.avatar{
+	border-radius: 40px;
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+  body {
+    background-color: #F09A9D!important; /* Red */
+		margin-bottom: 100px !important;
+  }
+
+	nav{
+		position: fixed !important;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		z-index: 99;
+	}
+
+	.navbar-nav{
+		display: flex;
+    flex-direction: row !important;
+		width: 100%;
+    justify-content: space-between;
+	}
+
+	.menu-label{
+		display: none;
+	}
+
+	img{
+		max-width: 100%;
+	}
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+  body {
+    background-color: #F5CF8E!important; /* Yellow */
+  }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+  body {
+    background-color: #B2D6FF!important; /* Blue */
+  }
+}

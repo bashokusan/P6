@@ -28,16 +28,18 @@
             {% endfor %}
         </div>
 
-        <h1>{{ trick.name }}</h1>
-        <p>{{ trick.description | nl2br }}</p>
-        <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
-        <img src="{{ asset('uploads/avatar/' ~ trick.author.avatar) }}" alt="avatar de {{ trick.author.pseudo }}" width="40">
-        {% if trick.updatedAt %}
-        <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
-        {% endif %}
+        <div class="container">
+            <h1>{{ trick.name }}</h1>
+            <p>{{ trick.description | nl2br }}</p>
+            <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
+            <img src="{{ asset('uploads/avatar/' ~ trick.author.avatar) }}" alt="avatar de {{ trick.author.pseudo }}" width="40" class="avatar">
+            {% if trick.updatedAt %}
+            <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
+            {% endif %}
+        </div>
     </div>
 
-    <div class="mt-4">
+    <div class="container mt-4">
         <h2>Commentaires :</h2>
         {% if is_granted('ROLE_USER') %}
             {{ form_start(form) }}
@@ -53,7 +55,7 @@
             <div class="comment">
             {% for comment in trick.comments | slice(0,2) %}
                 <div class="media mt-4">
-                    <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3" alt="avatar de {{ comment.author.pseudo }}" width="50">
+                    <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3 avatar" alt="avatar de {{ comment.author.pseudo }}" width="50">
                     <div class="media-body">
                     <h5 class="mt-0">{{ comment.author.pseudo }} le {{ comment.createdAt | date('d/m/Y') }}</h5>
                     {{ comment.content | nl2br }}
@@ -61,9 +63,10 @@
                 </div>
             {% endfor %}
             </div>
-        <button class="btn btn-info" id="loadMore">Show more comments</button>
+            {% if trick.comments is not empty %}
+                <button class="btn btn-info" id="loadMore">Show more comments</button>
+            {% endif %}
         </div>
-
     </div>
 
 <script>
@@ -72,7 +75,7 @@
 
       $('#loadMore').click(function(){
         commentCount += 2;
-        
+
         $.ajax({
           url: "{{ path('loadMoreComments', {'slug': trick.slug} )}}",
           type: "POST",
