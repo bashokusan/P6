@@ -1,14 +1,26 @@
 var $collectionHolder;
-var $addNewItem = $("<a href='#' class='btn btn-info mb-3'>Add new item</a>");
+var $collectionHolderVid;
+var $addNewItem = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-img'>Add new item</a>");
+var $addNewItemVideo = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-video'>Add new item</a>");
 
 $(document).ready(function(){
     $collectionHolder = $('#img_list');
+    $collectionHolderVid = $('#vid_list');
+
     $collectionHolder.append($addNewItem);
+    $collectionHolderVid.append($addNewItemVideo);
+
     $collectionHolder.data('index', $collectionHolder.find('.card').length);
+    $collectionHolderVid.data('index', $collectionHolderVid.find('.card').length);
 
     $addNewItem.click(function(e){
         e.preventDefault();
-        addNewForm();
+        addNewForm($collectionHolder);
+    })
+
+    $addNewItemVideo.click(function(e){
+        e.preventDefault();
+        addNewForm($collectionHolderVid);
     })
 
     $collectionHolder.find('.card').each(function(){
@@ -16,17 +28,23 @@ $(document).ready(function(){
     })
 });
 
-function addNewForm(){
-    var prototype = $collectionHolder.data('prototype');
-    var index = $collectionHolder.data('index');
+function addNewForm(target){
+    var prototype = target.data('prototype');
+    var index = target.data('index');
     var newForm = prototype.replace(/__name__/g, index);
-    $collectionHolder.data('index', index + 1);
+    target.data('index', index + 1);
+
     var $card = $("<div class='card mb-3'></div>")
     var $cardBody = $("<div class='card-body'></div>").append(newForm);
-    $card.append($cardBody);
-    addRemoveButton($card);
-    $addNewItem.before($card);
 
+    $card.append($cardBody);
+
+    console.log($cardBody);
+    addRemoveButton($card);
+
+    $card.insertBefore(target.find('.add-item-button')[0]);
+    // target.find('.add-item-button')[0].insertBefore($card);
+    // $addNewItem.
 }
 
 function addRemoveButton($card){

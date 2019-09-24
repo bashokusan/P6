@@ -19,7 +19,7 @@ class TrickController extends AbstractController
     {
         $tricks = $repo->findAll();
 
-        return $this->render('trick/index.html.twig', [
+        return $this->render('public/index.html.twig', [
             'controller_name' => 'TrickController',
             'tricks' => $tricks
         ]);
@@ -44,7 +44,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
-        return $this->render('trick/trick_show.html.twig', [
+        return $this->render('public/trick_show.html.twig', [
             'controller_name' => 'TrickController',
             'trick' => $trick,
             'form'  => $form->createView()

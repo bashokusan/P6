@@ -63,6 +63,7 @@ class TrickManageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $trick->setSlug(Slugger::slugify($trick->getName()));
+            
             $files = $trick->getImages();
             foreach ($files as $img) {
                 $file = $img->getFile();
@@ -71,6 +72,7 @@ class TrickManageController extends AbstractController
                 $img->setSrc($newFilename);
                 $file->move($this->getParameter('media_directory'), $newFilename);
             }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
             $em->flush();

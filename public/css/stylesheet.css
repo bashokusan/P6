@@ -1,0 +1,15 @@
+html{
+	scroll-behavior: smooth;
+}
+
+*{
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+}
+
+.hero{
+  height: 100vh;
+  background: center no-repeat url('../heroimg.jpg');
+}
