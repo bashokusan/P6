@@ -13,16 +13,31 @@ use App\Entity\Comment;
 class TrickController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"}, name="tricks")
+     * @Route("/", name="tricks")
      */
-    public function index(TrickRepository $repo)
+    public function index()
     {
-        $tricks = $repo->findAll();
-
         return $this->render('public/index.html.twig', [
             'controller_name' => 'TrickController',
-            'tricks' => $tricks
         ]);
+    }
+
+    /**
+     * @Route("/more", name="loadMoreTricks")
+     */
+    public function loadMoreTricks(Request $request, TrickRepository $repo)
+    {
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC']);
+
+        if($request->isXmlHttpRequest()){
+            $tricksCount = $request->request->get('tricksCount');
+            return $this->render('public/tricks_list.html.twig', [
+                'controller_name' => 'TrickController',
+                'tricks' => $tricks,
+                'start' => $tricksCount,
+                'length' => 3
+            ]);
+        }
     }
 
     /**
@@ -49,5 +64,21 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'form'  => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/trick/more/{slug}", name="loadMoreComments")
+     */
+    public function loadMoreComments(Trick $trick, Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $commentCount = $request->request->get('commentCount');
+            return $this->render('public/comments.html.twig', [
+                'controller_name' => 'BlogController',
+                'trick' => $trick,
+                'start' => $commentCount,
+                'length' => 2
+            ]);
+        }
     }
 }

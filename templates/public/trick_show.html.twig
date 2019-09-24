@@ -36,7 +36,7 @@
         <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
         {% endif %}
     </div>
-    
+
     <div class="mt-4">
         <h2>Commentaires :</h2>
         {% if is_granted('ROLE_USER') %}
@@ -49,14 +49,41 @@
             <a class="btn btn-primary" href="{{ path('app_login') }}"> Se connecter</a>
         {% endif %}
 
-        {% for comment in trick.comments %}
-            <div class="media mt-4">
-                <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3" alt="avatar de {{ comment.author.pseudo }}" width="50">
-                <div class="media-body">
-                <h5 class="mt-0">{{ comment.author.pseudo }} le {{ comment.createdAt | date('d/m/Y') }}</h5>
-                {{ comment.content | nl2br }}
+        <div class="comments mb-5">
+            <div class="comment">
+            {% for comment in trick.comments | slice(0,2) %}
+                <div class="media mt-4">
+                    <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3" alt="avatar de {{ comment.author.pseudo }}" width="50">
+                    <div class="media-body">
+                    <h5 class="mt-0">{{ comment.author.pseudo }} le {{ comment.createdAt | date('d/m/Y') }}</h5>
+                    {{ comment.content | nl2br }}
+                    </div>
                 </div>
+            {% endfor %}
             </div>
-        {% endfor %}
+        <button class="btn btn-info" id="loadMore">Show more comments</button>
+        </div>
+
     </div>
+
+<script>
+    $(document).ready(function(){
+      var commentCount = 0;
+
+      $('#loadMore').click(function(){
+        commentCount += 2;
+        
+        $.ajax({
+          url: "{{ path('loadMoreComments', {'slug': trick.slug} )}}",
+          type: "POST",
+          dataType: "html",
+          data:{"commentCount": commentCount},
+          success : function(code_html, statut){
+            $(".comment").append(code_html);
+            },
+        });
+      });
+
+    });
+</script>
 {% endblock %}

@@ -5,33 +5,49 @@
 <div class="hero">
     <div class="intro pt-5 pl-5">
         <h1>Tous les tricks. Tous vos tricks</h1>
-        <a href="#tricks">Les tricks</a>
+        <a href="#tricks" id="loadTricks">Les tricks</a>
     </div>
 </div>
 
-<div class="container text-center" id="tricks">
+<div class="container text-center">
     <h2 class="my-5">Les tricks</h2>
-    <div class="row flex">
-        {% for trick in tricks %}
-            <div class="col-lg-4 mt-3">
-                <div class="card">
-                    <div class="card-header">
-                        <em>{{ trick.category.name }}</em>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ trick.name }}</h5>
-                        <a href="{{ path('trick_show', {'slug': trick.slug})}}" class="btn btn-primary">Détails</a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <em>Créé le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-        <div class="text-center container my-5">
-            <button type="button" class="btn btn-danger" name="more">Voir plus de tricks</button>
-        </div>
-
+    <div class="row flex tricks_list" id="tricks">
+    </div>
+    <div class="text-center container my-5">
+        <button type="button" class="btn btn-danger" id="loadMore">Voir plus de tricks</button>
     </div>
 </div>
+<script>
+$(document).ready(function(){
+  var tricksCount = 0;
+
+  $('#loadTricks').click(function(){
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount},
+      success : function(code_html, statut){
+        $(".tricks_list").append(code_html);
+        },
+    });
+    tricksCount += 3;
+  });
+
+  $('#loadMore').click(function(){
+
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount},
+      success : function(code_html, statut){
+        $(".tricks_list").append(code_html);
+        },
+    });
+    tricksCount += 3;
+  });
+  
+});
+</script>
 {% endblock %}
