@@ -41,6 +41,8 @@
 
     <div class="container mt-4">
         <h2>Commentaires :</h2>
+        <input type="hidden" id="allCount" value="{{ trick.comments | length }}">
+
         {% if is_granted('ROLE_USER') %}
             {{ form_start(form) }}
             {{ form_row(form.content) }}
@@ -71,10 +73,11 @@
 
 <script>
     $(document).ready(function(){
-      var commentCount = 0;
+      var commentCount = 2;
+      var allcount = Number($('#allCount').val());
+      console.log(allcount);
 
       $('#loadMore').click(function(){
-        commentCount += 2;
 
         $.ajax({
           url: "{{ path('loadMoreComments', {'slug': trick.slug} )}}",
@@ -82,9 +85,16 @@
           dataType: "html",
           data:{"commentCount": commentCount},
           success : function(code_html, statut){
-            $(".comment").append(code_html);
+              $(".comment").append(code_html);
+              console.log(allcount <= commentCount);
+              if(allcount <= commentCount){
+                $('#loadMore').hide();
+              }
             },
         });
+
+        commentCount += 2;
+        console.log(commentCount);
       });
 
     });

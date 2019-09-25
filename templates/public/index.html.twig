@@ -5,12 +5,12 @@
 <div class="hero">
     <div class="intro pt-5 pl-5">
         <h1>Tous les tricks. Tous vos tricks</h1>
-        <a href="#tricks" id="loadTricks">Les tricks</a>
     </div>
 </div>
 
 <div class="container text-center">
     <h2 class="my-5">Les tricks</h2>
+    <input type="hidden" id="allCount" value="{{ tricks | length }}">
     <div class="row flex tricks_list" id="tricks">
     </div>
     <div class="text-center container my-5">
@@ -20,19 +20,7 @@
 <script>
 $(document).ready(function(){
   var tricksCount = 0;
-
-  $('#loadTricks').click(function(){
-    $.ajax({
-      url: "{{ path('loadMoreTricks')}}",
-      type: "post",
-      dataType: "html",
-      data:{"tricksCount": tricksCount},
-      success : function(code_html, statut){
-        $(".tricks_list").append(code_html);
-        },
-    });
-    tricksCount += 3;
-  });
+  var allcount = Number($('#allCount').val());
 
   $('#loadMore').click(function(){
 
@@ -42,12 +30,17 @@ $(document).ready(function(){
       dataType: "html",
       data:{"tricksCount": tricksCount},
       success : function(code_html, statut){
-        $(".tricks_list").append(code_html);
+          $(".tricks_list").append(code_html);
+          console.log(allcount <= tricksCount);
+          if(allcount <= tricksCount){
+            $('#loadMore').hide();
+          }
         },
     });
+
     tricksCount += 3;
   });
-  
+
 });
 </script>
 {% endblock %}

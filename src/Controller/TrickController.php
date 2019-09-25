@@ -15,10 +15,13 @@ class TrickController extends AbstractController
     /**
      * @Route("/", name="tricks")
      */
-    public function index()
+    public function index(TrickRepository $repo)
     {
+        $tricks = $repo->findAll();
+
         return $this->render('public/index.html.twig', [
             'controller_name' => 'TrickController',
+            'tricks' => $tricks
         ]);
     }
 
