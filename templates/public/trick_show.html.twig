@@ -75,7 +75,6 @@
     $(document).ready(function(){
       var commentCount = 2;
       var allcount = Number($('#allCount').val());
-      console.log(allcount);
 
       $('#loadMore').click(function(){
 
@@ -86,7 +85,6 @@
           data:{"commentCount": commentCount},
           success : function(code_html, statut){
               $(".comment").append(code_html);
-              console.log(allcount <= commentCount);
               if(allcount <= commentCount){
                 $('#loadMore').hide();
               }
@@ -94,7 +92,6 @@
         });
 
         commentCount += 2;
-        console.log(commentCount);
       });
 
     });

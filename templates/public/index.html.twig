@@ -6,21 +6,48 @@
     <div class="intro pt-5 pl-5">
         <h1>Tous les tricks. Tous vos tricks</h1>
     </div>
+    <div class="text-center container my-5">
+        <button type="button" class="btn btn-danger" id="loadTricks">Voir les tricks</button>
+    </div>
 </div>
 
-<div class="container text-center">
-    <h2 class="my-5">Les tricks</h2>
+<div class="container text-center" id="tricksList">
     <input type="hidden" id="allCount" value="{{ tricks | length }}">
     <div class="row flex tricks_list" id="tricks">
     </div>
-    <div class="text-center container my-5">
+    <div class="text-center container my-5" id="loadMoreButtonDiv">
         <button type="button" class="btn btn-danger" id="loadMore">Voir plus de tricks</button>
     </div>
 </div>
 <script>
 $(document).ready(function(){
+
   var tricksCount = 0;
   var allcount = Number($('#allCount').val());
+  console.log(allcount);
+
+  $('#tricksList').hide();
+
+  $('#loadTricks').click(function(){
+
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount},
+      success : function(code_html, statut){
+          $(".tricks_list").append(code_html);
+        },
+    });
+
+    $('#tricksList').show();
+
+    $('html, body').animate({
+      scrollTop: $('#tricksList').offset().top
+    }, 750);
+
+    tricksCount += 3;
+  });
 
   $('#loadMore').click(function(){
 
@@ -31,12 +58,18 @@ $(document).ready(function(){
       data:{"tricksCount": tricksCount},
       success : function(code_html, statut){
           $(".tricks_list").append(code_html);
-          console.log(allcount <= tricksCount);
+
           if(allcount <= tricksCount){
             $('#loadMore').hide();
           }
         },
     });
+
+    $('#tricksList').show();
+
+    $('html, body').animate({
+      scrollTop: $('#loadMoreButtonDiv').offset().top
+    }, 750);
 
     tricksCount += 3;
   });
