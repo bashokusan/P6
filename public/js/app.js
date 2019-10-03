@@ -3,6 +3,35 @@ var $collectionHolderVid;
 var $addNewItem = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-img'>Add new item</a>");
 var $addNewItemVideo = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-video'>Add new item</a>");
 
+function addNewForm(target){
+    var prototype = target.data('prototype');
+    var index = target.data('index');
+    var newForm = prototype.replace(/__name__/g, index);
+    target.data('index', index + 1);
+
+    var $card = $("<div class='card mb-3'></div>")
+    var $cardBody = $("<div class='card-body'></div>").append(newForm);
+
+    $card.append($cardBody);
+
+    addRemoveButton($card);
+
+    $card.insertBefore(target.find('.add-item-button')[0]);
+    // target.find('.add-item-button')[0].insertBefore($card);
+    // $addNewItem.
+};
+
+function addRemoveButton($card){
+    var $removeButton = $("<a href='#' class='btn btn-danger'>Remove item</a>");
+    var $cardFooter = $("<div class='card-footer'></div>").append($removeButton);
+    $card.append($cardFooter);
+
+    $removeButton.click(function(e){
+        e.preventDefault();
+        $(e.target).parents('.card').remove();
+    })
+};
+
 $(document).ready(function(){
     $collectionHolder = $('#img_list');
     $collectionHolderVid = $('#vid_list');
@@ -30,32 +59,3 @@ $(document).ready(function(){
         addRemoveButton($(this));
     })
 });
-
-function addNewForm(target){
-    var prototype = target.data('prototype');
-    var index = target.data('index');
-    var newForm = prototype.replace(/__name__/g, index);
-    target.data('index', index + 1);
-
-    var $card = $("<div class='card mb-3'></div>")
-    var $cardBody = $("<div class='card-body'></div>").append(newForm);
-
-    $card.append($cardBody);
-
-    addRemoveButton($card);
-
-    $card.insertBefore(target.find('.add-item-button')[0]);
-    // target.find('.add-item-button')[0].insertBefore($card);
-    // $addNewItem.
-}
-
-function addRemoveButton($card){
-    var $removeButton = $("<a href='#' class='btn btn-danger'>Remove item</a>");
-    var $cardFooter = $("<div class='card-footer'></div>").append($removeButton);
-    $card.append($cardFooter);
-
-    $removeButton.click(function(e){
-        e.preventDefault();
-        $(e.target).parents('.card').remove();
-    })
-};
