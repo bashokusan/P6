@@ -13,16 +13,42 @@ use App\Entity\Comment;
 class TrickController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"}, name="tricks")
+     * @Route("/", name="tricks")
      */
     public function index(TrickRepository $repo)
     {
-        $tricks = $repo->findAll();
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC']);
 
-        return $this->render('trick/index.html.twig', [
+        return $this->render('public/index.html.twig', [
             'controller_name' => 'TrickController',
             'tricks' => $tricks
         ]);
+    }
+
+    /**
+     * @Route("/more", name="loadMoreTricks")
+     */
+    public function loadMoreTricks(Request $request, TrickRepository $repo)
+    {
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC']);
+
+        if($request->isXmlHttpRequest()){
+            $tricksCount = $request->request->get('tricksCount');
+
+            if($request->request->get('length')){
+              $length = $request->request->get('length');
+            }
+            else {
+              $length = 3;
+            }
+
+            return $this->render('public/tricks_list.html.twig', [
+                'controller_name' => 'TrickController',
+                'tricks' => $tricks,
+                'start' => $tricksCount,
+                'length' => $length
+            ]);
+        }
     }
 
     /**
@@ -44,10 +70,26 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
-        return $this->render('trick/trick_show.html.twig', [
-            'controller_name' => 'TrickController',
+        return $this->render('public/trick_show.html.twig', [
+            'controller_name' => 'TrickControllerShow',
             'trick' => $trick,
             'form'  => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/trick/more/{slug}", name="loadMoreComments")
+     */
+    public function loadMoreComments(Trick $trick, Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $commentCount = $request->request->get('commentCount');
+            return $this->render('public/comments.html.twig', [
+                'controller_name' => 'TrickControllerShow',
+                'trick' => $trick,
+                'start' => $commentCount,
+                'length' => 2
+            ]);
+        }
     }
 }

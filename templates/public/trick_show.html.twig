@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ trick.name }}{% endblock %}
+
+{% block body %}
+
+<div class="trick-name container mt-5">
+    <h1>{{ trick.name }}</h1>
+    <p>
+      <em>Posté le {{ trick.createdAt | date('d/m/Y') }} par {{ trick.author.pseudo }}</em> <img src="{{ asset('uploads/avatar/' ~ trick.author.avatar) }}" alt="avatar de {{ trick.author.pseudo }}" width="40" class="avatar">
+      {% if trick.updatedAt %}
+      <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
+      {% endif %}
+    </p>
+</div>
+
+<div class="trick-info">
+<div class="medias row container-fluid bg-dark">
+    {% if trick.images | length > 0 %}
+    <div class="{% if trick.videos | length == 0 %}col-lg-12{% else %}col-lg-7{% endif %} col-md-12">
+        <div id="carousel" class="carousel slide mt-3 mb-2" data-ride="carousel">
+            <div class="carousel-inner enlarge">
+                {% for image in trick.images %}
+                    <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
+                        <img class="d-block trick-picture" src="{{ asset('uploads/media/' ~ image.src) }}" alt="{{ image.alt }}">
+                    </div>
+                {% endfor %}
+            </div>
+            {% if trick.images | length > 1 %}
+            <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#carousel" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% if trick.videos | length > 0 %}
+    <div class="col-lg-5 col-md-12">
+        <div id="carousel-v" class="carousel slide mt-3 mb-2" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for vid in trick.videos %}
+                    <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
+                        <iframe id="video{{ vid.id }}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:100%"></iframe>
+                        <script>
+                            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                            var url = "{{ vid.url }}";
+                            var match = url.match(regExp);
+                            if (match && match[2].length == 11)
+                            {
+                                var id = match[2];
+                                var embedlink = "http://www.youtube.com/embed/" + id;
+                                var iframe = document.getElementById("video{{ vid.id }}");
+                                iframe.src = embedlink;
+                            }
+                        </script>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if trick.videos | length > 1 %}
+            <a class="carousel-control-prev" href="#carousel-v" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#carousel-v" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="description container mt-5 pb-5">
+    <p>{{ trick.description | nl2br }}</p>
+</div>
+</div>
+
+<div class="container mt-5 col-lg-6 col-md-12">
+    <h2>Commentaires :</h2>
+    <input type="hidden" id="allCount" value="{{ trick.comments | length }}">
+
+    {% if is_granted('ROLE_USER') %}
+        {{ form_start(form) }}
+        {{ form_row(form.content, { 'label': 'Votre commentaire :' }) }}
+        <button type="submit" class="btn btn-success">Commenter</button>
+        {{ form_end(form) }}
+    {% else %}
+        <p>Vous devez être connecté pour poster un commentaire</p>
+        <a class="btn btn-primary" href="{{ path('app_login') }}"> Se connecter</a>
+    {% endif %}
+
+    <div class="comments mb-5">
+        <div class="comment">
+        {% for comment in trick.comments | slice(0,2) %}
+            <div class="media mt-4">
+                <img src="{{ asset('uploads/avatar/' ~ comment.author.avatar) }}" class="mr-3 avatar" alt="avatar de {{ comment.author.pseudo }}" width="30">
+                <div class="media-body">
+                    <p>{{ comment.author.pseudo }} - <em>le {{ comment.createdAt | date('d/m/Y') }}</em></p>
+                    <p>{{ comment.content | nl2br }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        {% if trick.comments is not empty %}
+            <button class="btn btn-info mt-3" id="loadMore">Show more comments</button>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+$('.carousel').carousel({
+  interval: false
+});
+
+$(document).ready(function(){
+  var commentCount = 2;
+  var allcount = Number($('#allCount').val());
+  if(allcount <= commentCount){
+    $('#loadMore').hide();
+  }
+
+  $('#loadMore').click(function(){
+
+    $.ajax({
+      url: "{{ path('loadMoreComments', {'slug': trick.slug} )}}",
+      type: "POST",
+      dataType: "html",
+      data:{"commentCount": commentCount},
+      success : function(code_html, statut){
+          $(".comment").append(code_html);
+          if(allcount <= commentCount){
+            $('#loadMore').hide();
+          }
+        },
+    });
+
+    commentCount += 2;
+  });
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="main-container row">
+    <div class="title-content col-lg-6 col-md-12">
+        <div class="title-content-container">
+            <div class="intro">
+                <h1>Tous les tricks, <br>tous <u>vos</u> tricks !</h1>
+                <p>Partagez vos tricks avec la communauté Snowtricks pour encore plus de kiff !</p>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn btn-danger" id="loadTricks">Voir les tricks</button>
+                <a href="{{ path('trick_admin') }}" class="btn btn-warning">Créer un trick</a>
+            </div>
+        </div>
+    </div>
+    <div class="heroimg col-lg-6 col-md-12">
+    </div>
+</div>
+
+<div class="container text-center tricksList" id="tricksList">
+    <input type="hidden" id="allCount" value="{{ tricks | length }}">
+    <div class="row flex tricks_list" id="tricks">
+    </div>
+    <div class="text-center container my-5" id="loadMoreButtonDiv">
+        <button type="button" class="btn btn-danger" id="loadMore">Voir plus de tricks</button>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+
+  var tricksCount = 0;
+  var allcount = Number($('#allCount').val());
+  $('#tricksList').hide();
+
+  if(sessionStorage['length']){
+    length = parseInt(sessionStorage.getItem('length'));
+
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount, "length": length},
+      success : function(code_html, statut){
+          $(".tricks_list").append(code_html);
+
+          if(allcount <= length){
+            $('#loadMore').hide();
+          }
+        },
+    });
+
+    $('#loadTricks').hide();
+    $('#tricksList').show();
+    tricksCount += 3;
+  }
+
+  $('#loadTricks').click(function(){
+
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount},
+      success : function(code_html, statut){
+          $(".tricks_list").append(code_html);
+        },
+    });
+
+    $('#loadTricks').hide();
+    $('#tricksList').show();
+
+    $('html, body').animate({
+      scrollTop: $('#tricksList').offset().top
+    }, 750);
+
+    tricksCount += 3;
+    sessionStorage.setItem("length",tricksCount);
+
+  });
+
+  $('#loadMore').click(function(){
+
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount},
+      success : function(code_html, statut){
+          $(".tricks_list").append(code_html);
+
+          if(allcount <= tricksCount){
+            $('#loadMore').hide();
+          }
+        },
+    });
+
+    $('#tricksList').show();
+
+    $('html, body').animate({
+      scrollTop: $('#loadMoreButtonDiv').offset().top
+    }, 750);
+
+    tricksCount += 3;
+    sessionStorage.setItem("length",tricksCount);
+  });
+
+});
+</script>
+{% endblock %}

@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-use App\Utils\SendEmail;
 use App\Entity\User;
 
 class SecurityController extends AbstractController
@@ -35,7 +34,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgottenPassword", name="app_forgotten_password")
      */
-    public function forgottenPassword(Request $request, SendEmail $sendEmail, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer)
+    public function forgottenPassword(Request $request, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer)
     {
         if ($request->isMethod('POST')) {
 
