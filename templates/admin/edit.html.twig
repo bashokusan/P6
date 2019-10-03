@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Mise à jour du trick</h1>
+    {{ include('admin/_form.html.twig', {button: 'Mettre à jour'})}}
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <h1>Bonjour {{ user.pseudo }}</h1>
+      <h2>Valider votre inscription en cliquant sur le lien ci-dessous.</h2>
+      <a href="{{ url('confirm', {id: user.id, token: user.token}) }}">Je valide mon inscription</a>
+  </body>
+</html>

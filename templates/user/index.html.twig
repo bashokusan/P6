@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Bonjour {{ user.pseudo }}</h1>
+    <img src="{{ asset('uploads/avatar/' ~ user.avatar) }}" alt="profile picture" width="160">
+
+    <h2>Changer votre avatar</h2>
+    {{ form_start(form) }}
+        {{ form_row(form.avatar) }}
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
