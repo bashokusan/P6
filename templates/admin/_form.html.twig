@@ -5,11 +5,10 @@
 {{ form_start(form) }}
     <div class="row">
         <div class="col-sm-6">
-            <h4>Le trick</h4>
-            {{ form_row(form.category) }}
+            {{ form_row(form.category, { 'label': 'Catégorie du trick' }) }}
             <a href="{{ path('category_new') }}">Ajouter une catégorie</a>
-            {{ form_row(form.name) }}
-            {{ form_row(form.description) }}
+            {{ form_row(form.name, { 'label': 'Nom du trick' }) }}
+            {{ form_row(form.description, { 'label': 'Description du trick' }) }}
         </div>
 
         <div class="col-sm-3">
@@ -34,7 +33,7 @@
                 {% for row in form.videos %}
                     <div class="card mb-3">
                         <div class="card-body">
-
+                            <p>{{ row.vars.value.url }}</p>
                         </div>
                         <div style="display:none">
                             {{ form_row(row) }}

@@ -2,16 +2,24 @@
 
 {% block body %}
 
-<div class="hero">
-    <div class="intro pt-5 pl-5">
-        <h1>Tous les tricks. Tous vos tricks</h1>
+<div class="main-container row">
+    <div class="title-content col-lg-6 col-md-12">
+        <div class="title-content-container">
+            <div class="intro">
+                <h1>Tous les tricks, <br>tous <u>vos</u> tricks !</h1>
+                <p>Partagez vos tricks avec la communauté Snowtricks pour encore plus de kiff !</p>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn btn-danger" id="loadTricks">Voir les tricks</button>
+                <a href="{{ path('trick_admin') }}" class="btn btn-warning">Créer un trick</a>
+            </div>
+        </div>
     </div>
-    <div class="text-center container my-5">
-        <button type="button" class="btn btn-danger" id="loadTricks">Voir les tricks</button>
+    <div class="heroimg col-lg-6 col-md-12">
     </div>
 </div>
 
-<div class="container text-center" id="tricksList">
+<div class="container text-center tricksList" id="tricksList">
     <input type="hidden" id="allCount" value="{{ tricks | length }}">
     <div class="row flex tricks_list" id="tricks">
     </div>
@@ -24,9 +32,29 @@ $(document).ready(function(){
 
   var tricksCount = 0;
   var allcount = Number($('#allCount').val());
-  console.log(allcount);
-
   $('#tricksList').hide();
+
+  if(sessionStorage['length']){
+    length = parseInt(sessionStorage.getItem('length'));
+
+    $.ajax({
+      url: "{{ path('loadMoreTricks')}}",
+      type: "post",
+      dataType: "html",
+      data:{"tricksCount": tricksCount, "length": length},
+      success : function(code_html, statut){
+          $(".tricks_list").append(code_html);
+
+          if(allcount <= length){
+            $('#loadMore').hide();
+          }
+        },
+    });
+
+    $('#loadTricks').hide();
+    $('#tricksList').show();
+    tricksCount += 3;
+  }
 
   $('#loadTricks').click(function(){
 
@@ -40,6 +68,7 @@ $(document).ready(function(){
         },
     });
 
+    $('#loadTricks').hide();
     $('#tricksList').show();
 
     $('html, body').animate({
@@ -47,6 +76,8 @@ $(document).ready(function(){
     }, 750);
 
     tricksCount += 3;
+    sessionStorage.setItem("length",tricksCount);
+
   });
 
   $('#loadMore').click(function(){
@@ -72,6 +103,7 @@ $(document).ready(function(){
     }, 750);
 
     tricksCount += 3;
+    sessionStorage.setItem("length",tricksCount);
   });
 
 });

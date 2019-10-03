@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+
 html{
 	scroll-behavior: smooth;
 }
@@ -5,19 +7,42 @@ html{
 *{
 	margin: 0px;
 	padding: 0px;
-	box-sizing: border-box;
+	box-sizing: border-box !important;
 	font-family: Arial, sans-serif;
 }
 
-.hero{
-  height: 100vh;
-  background: center no-repeat url('../heroimg.jpg');
+body{
+	background-color: #f0ffff !important;
+}
+
+.main-container{
+	background-color: #7fffb8;
+	display: flex;
+}
+
+.heroimg{
+	background: right / cover no-repeat url('../heroimgsmall.jpg');
+}
+
+.title-content h1{
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .navbar-nav{
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
+}
+
+.brand-name{
+	font-family: 'Permanent Marker', cursive;
+}
+
+.large{
+	font-size: 2rem;
+	color: #fff;
 }
 
 nav li{
@@ -32,51 +57,169 @@ nav li{
 	margin-left: 1rem;
 }
 
+.card-picture{
+	height: 200px;
+}
+
+.card-header{
+	background-color: #42BAFF !important;
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+.admin-actions{
+	display: flex;
+	justify-content: flex-end;
+}
+
+.admin-actions a{
+	margin-right: 1rem;
+}
+
+.trick-info{
+	-webkit-clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 90%);
+	clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 90%);
+	background-color: #00DBFF;
+	padding-top: 3.5rem;
+	padding-bottom: 5rem;
+}
+
+.trick-picture{
+	max-width: 100%;
+	margin: auto;
+}
+
+.medias{
+	-webkit-clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+	clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+	padding: 5rem 0 !important;
+	margin: 0 !important;
+}
+
+.media{
+	background-color: #fff;
+	padding: 1rem;
+}
+
+.media p{
+	margin: 0 !important;
+}
+
 .avatar{
 	border-radius: 40px;
 }
 
+.form{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 50%;
+	min-height: 100vh;
+	margin: 0 auto;
+	text-align: center;
+}
+
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
-  body {
-    background-color: #F09A9D!important; /* Red */
-		margin-bottom: 100px !important;
-  }
-
 	nav{
 		position: fixed !important;
 		right: 0;
 		left: 0;
 		bottom: 0;
 		z-index: 99;
+		background-color: #343a40;
+	}
+
+	nav a{
+		color: #fff;
 	}
 
 	.navbar-nav{
-		display: flex;
     flex-direction: row !important;
-		width: 100%;
-    justify-content: space-between;
 	}
 
 	.menu-label{
 		display: none;
 	}
 
-	img{
-		max-width: 100%;
+	.main-container{
+		-webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 95%);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 95%);
+	}
+
+	.title-content{
+		padding: 3rem !important;
+	}
+
+	.heroimg{
+		height: 400px;
+		-webkit-clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+		clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+	}
+
+	.tricksList{
+		padding-bottom: 3rem;
+	}
+
+	.form{
+		width: 100%;
+		padding: 2rem;
 	}
 }
 
 /* Tablet Styles */
 @media only screen and (min-width: 401px) and (max-width: 960px) {
-  body {
-    background-color: #F5CF8E!important; /* Yellow */
-  }
 }
 
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
-  body {
-    background-color: #B2D6FF!important; /* Blue */
-  }
+	nav{
+		position: absolute !important;
+		right: 0;
+		left: 0;
+		top: 0;
+		z-index: 99;
+	}
+
+	.nav-colorized{
+		background-color: #7fffb8;
+	}
+
+	nav a{
+		color: #000;
+	}
+
+	nav i{
+		display: none !important;
+	}
+
+	.main-container{
+		height: 100vh;
+		-webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 85%);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 85%);
+	}
+
+	.title-content{
+		padding-left: 3rem !important;
+	}
+
+	.title-content h1{
+		font-size: 4rem;
+	}
+
+	.heroimg{
+		-webkit-clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+		clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+	}
+
+	.title-content{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.trick-name{
+		padding: 2rem 0;
+	}
 }

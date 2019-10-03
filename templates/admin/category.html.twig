@@ -3,11 +3,11 @@
 {% block title %}Administration{% endblock %}
 
 {% block body %}
-<div>
+<div class="container mt-5">
     <h1>Ajouter une nouvelle catégorie</h1>
     {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.description) }}
+    {{ form_row(form.name, { 'label': 'Nom de la catégorie' }) }}
+    {{ form_row(form.description, { 'label': 'Description de la catégorie' }) }}
     <button type="submit" class="btn btn-primary">Ajouter</button>
     {{ form_end(form) }}
 </div>

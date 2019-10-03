@@ -3,9 +3,8 @@
 {% block title %}Administration{% endblock %}
 
 {% block body %}
-<div>
+<div class="container mt-5">
     <h1>Nouveau trick</h1>
-    <h2>Créer un trick</h2>
     {{ include('admin/_form.html.twig', {button: 'Publier'})}}
 </div>
 {% endblock %}

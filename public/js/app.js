@@ -26,6 +26,9 @@ $(document).ready(function(){
     $collectionHolder.find('.card').each(function(){
         addRemoveButton($(this));
     })
+    $collectionHolderVid.find('.card').each(function(){
+        addRemoveButton($(this));
+    })
 });
 
 function addNewForm(target){
@@ -39,7 +42,6 @@ function addNewForm(target){
 
     $card.append($cardBody);
 
-    console.log($cardBody);
     addRemoveButton($card);
 
     $card.insertBefore(target.find('.add-item-button')[0]);

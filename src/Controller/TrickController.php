@@ -34,11 +34,19 @@ class TrickController extends AbstractController
 
         if($request->isXmlHttpRequest()){
             $tricksCount = $request->request->get('tricksCount');
+
+            if($request->request->get('length')){
+              $length = $request->request->get('length');
+            }
+            else {
+              $length = 3;
+            }
+
             return $this->render('public/tricks_list.html.twig', [
                 'controller_name' => 'TrickController',
                 'tricks' => $tricks,
                 'start' => $tricksCount,
-                'length' => 3
+                'length' => $length
             ]);
         }
     }
@@ -63,7 +71,7 @@ class TrickController extends AbstractController
         }
 
         return $this->render('public/trick_show.html.twig', [
-            'controller_name' => 'TrickController',
+            'controller_name' => 'TrickControllerShow',
             'trick' => $trick,
             'form'  => $form->createView()
         ]);
@@ -77,7 +85,7 @@ class TrickController extends AbstractController
         if($request->isXmlHttpRequest()){
             $commentCount = $request->request->get('commentCount');
             return $this->render('public/comments.html.twig', [
-                'controller_name' => 'BlogController',
+                'controller_name' => 'TrickControllerShow',
                 'trick' => $trick,
                 'start' => $commentCount,
                 'length' => 2

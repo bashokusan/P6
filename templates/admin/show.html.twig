@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Administration{% endblock %}
+{% block title %}Administration - {{ trick.name }}{% endblock %}
 
 {% block body %}
-<div>
-    <h1>{{ trick.name }}</h1>
-    <div class="">
-    <em>Posté le {{ trick.createdAt | date('d/m/Y') }}</em>
-        {% if trick.updatedAt %}
-            <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
-        {% endif %}
+<div class="container mt-5">
+    <div class="trick-name col-12">
+        <h1>{{ trick.name }}</h1>
+        <p>
+          <em>Posté le {{ trick.createdAt | date('d/m/Y') }}</em>
+          {% if trick.updatedAt %}
+          <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
+          {% endif %}
+        </p>
     </div>
+    {{ include('admin/_action.html.twig') }}
 
     <div class="media images">
         {% for img in trick.images %}
-            <img width="400" src="{{ asset('uploads/media/' ~ img.src) }}" alt="{{ img.alt }}">
+            <div class="col-2">
+                <img width="100%" src="{{ asset('uploads/media/' ~ img.src) }}" alt="{{ img.alt }}">
+            </div>
         {% endfor %}
     </div>
 
@@ -37,7 +42,5 @@
     </div>
 
     <p>{{ trick.description | nl2br }}</p>
-
-    {{ include('admin/_action.html.twig') }}
 </div>
 {% endblock %}

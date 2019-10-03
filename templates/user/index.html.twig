@@ -3,7 +3,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
-<div>
+<div class="container mt-5">
     <h1>Bonjour {{ user.pseudo }}</h1>
     <img src="{{ asset('uploads/avatar/' ~ user.avatar) }}" alt="profile picture" width="160">
 
