@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
@@ -22,11 +23,13 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\length(min = 2, max = 50, minMessage = "Le nom du trick doit faire au moins {{ limit }} caractères", maxMessage = "Le nom du trick ne doit pas faire plus de {{ limit }} caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\length(min = 6, minMessage = "La description doit faire au moins {{ limit }} caractères")
      */
     private $description;
 

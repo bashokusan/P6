@@ -15,66 +15,75 @@
 </div>
 
 <div class="trick-info">
-<div class="medias row container-fluid bg-dark">
-    {% if trick.images | length > 0 %}
-    <div class="{% if trick.videos | length == 0 %}col-lg-12{% else %}col-lg-7{% endif %} col-md-12">
-        <div id="carousel" class="carousel slide mt-3 mb-2" data-ride="carousel">
-            <div class="carousel-inner enlarge">
-                {% for image in trick.images %}
-                    <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
-                        <img class="d-block trick-picture" src="{{ asset('uploads/media/' ~ image.src) }}" alt="{{ image.alt }}">
-                    </div>
-                {% endfor %}
-            </div>
-            {% if trick.images | length > 1 %}
-            <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </a>
-            <a class="carousel-control-next" href="#carousel" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </a>
-            {% endif %}
-        </div>
+    <div class="loadmedias">
+        <button type="button" name="button" class="btn btn-danger" id="loadMedia">Voir les medias</button>
     </div>
-    {% endif %}
-    {% if trick.videos | length > 0 %}
-    <div class="col-lg-5 col-md-12">
-        <div id="carousel-v" class="carousel slide mt-3 mb-2" data-ride="carousel">
-            <div class="carousel-inner">
-                {% for vid in trick.videos %}
-                    <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
-                        <iframe id="video{{ vid.id }}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:100%"></iframe>
-                        <script>
-                            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-                            var url = "{{ vid.url }}";
-                            var match = url.match(regExp);
-                            if (match && match[2].length == 11)
-                            {
-                                var id = match[2];
-                                var embedlink = "http://www.youtube.com/embed/" + id;
-                                var iframe = document.getElementById("video{{ vid.id }}");
-                                iframe.src = embedlink;
-                            }
-                        </script>
-                    </div>
-                {% endfor %}
+    <div class="medias row container-fluid bg-dark" id="medias">
+        {% if trick.images | length > 0 %}
+        <div class="{% if trick.videos | length == 0 %}col-lg-12{% else %}col-lg-7{% endif %} col-md-12">
+            <div id="carousel" class="carousel slide mt-3 mb-2" data-ride="carousel">
+                <div class="carousel-inner enlarge">
+                    {% for image in trick.images %}
+                        <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
+                            <img class="d-block trick-picture" src="{{ asset('uploads/media/' ~ image.src) }}" alt="{{ image.alt }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if trick.images | length > 1 %}
+                <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#carousel" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+                {% endif %}
             </div>
-            {% if trick.videos | length > 1 %}
-            <a class="carousel-control-prev" href="#carousel-v" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </a>
-            <a class="carousel-control-next" href="#carousel-v" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </a>
-            {% endif %}
         </div>
+        {% else %}
+        <div class="{% if trick.videos | length == 0 %}col-lg-12{% else %}col-lg-7{% endif %} col-md-12">
+            <div id="carousel" class="carousel slide mt-3 mb-2" data-ride="carousel">
+                <img class="d-block trick-picture" src="{{ asset('defaultimg.jpg') }}" alt="image par défault">
+            </div>
+        </div>
+        {% endif %}
+        {% if trick.videos | length > 0 %}
+        <div class="col-lg-5 col-md-12">
+            <div id="carousel-v" class="carousel slide mt-3 mb-2" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for vid in trick.videos %}
+                        <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
+                            <iframe id="video{{ vid.id }}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:100%"></iframe>
+                            <script>
+                                var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                                var url = "{{ vid.url }}";
+                                var match = url.match(regExp);
+                                if (match && match[2].length == 11)
+                                {
+                                    var id = match[2];
+                                    var embedlink = "http://www.youtube.com/embed/" + id;
+                                    var iframe = document.getElementById("video{{ vid.id }}");
+                                    iframe.src = embedlink;
+                                }
+                            </script>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if trick.videos | length > 1 %}
+                <a class="carousel-control-prev" href="#carousel-v" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-v" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
 
-<div class="description container mt-5 pb-5">
-    <p>{{ trick.description | nl2br }}</p>
-</div>
+    <div class="description container mt-5 pb-5">
+        <p>{{ trick.description | nl2br }}</p>
+    </div>
 </div>
 
 <div class="container mt-5 col-lg-6 col-md-12">
@@ -139,6 +148,10 @@ $(document).ready(function(){
     commentCount += 2;
   });
 
+  $('#loadMedia').click(function(){
+    $('#loadMedia').hide();
+    $('#medias').show();
+  });
 });
 </script>
 {% endblock %}

@@ -4,15 +4,22 @@
             <div class="card-header">
                 <em>{{ trick.category.name }}</em>
             </div>
-            {% for img in trick.images | slice(0, 1) %}
-                <img class="card-picture" src="{{ asset('uploads/media/' ~ img.src) }}" alt="{{ img.alt }}">
-            {% endfor %}
+            {% if trick.images | length > 0 %}
+                {% for img in trick.images | slice(0, 1) %}
+                    <img class="card-picture" src="{{ asset('uploads/media/' ~ img.src) }}" alt="{{ img.alt }}">
+                {% endfor %}
+            {% else %}
+                <img class="card-picture" src="{{ asset('defaultimg.jpg') }}" alt="image par défault">
+            {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ trick.name }}</h5>
                 <a href="{{ path('trick_show', {'slug': trick.slug})}}" class="btn btn-primary">Détails</a>
             </div>
             <div class="card-footer text-muted">
                 <em>Créé par {{ trick.author.pseudo }}</em>
+                {% if is_granted('ROLE_USER') %}
+                    {{ include('admin/_action.html.twig') }}
+                {% endif %}
             </div>
         </div>
     </div>

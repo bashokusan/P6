@@ -24,6 +24,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message = "L'adresse email est invalide")
      */
     private $email;
 
@@ -35,6 +36,7 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(min = 6, max = 4096)
      */
     private $password;
 
@@ -44,6 +46,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min = 2, max = 50, minMessage = "Le pseudo doit faire au moins {{ limit }} caractères", maxMessage = "Le pseudo ne doit pas faire plus de {{ limit }} caractères")
      */
     private $pseudo;
 

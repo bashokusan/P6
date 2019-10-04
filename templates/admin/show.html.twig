@@ -15,7 +15,7 @@
     </div>
     {{ include('admin/_action.html.twig') }}
 
-    <div class="media images">
+    <div class="medias images">
         {% for img in trick.images %}
             <div class="col-2">
                 <img width="100%" src="{{ asset('uploads/media/' ~ img.src) }}" alt="{{ img.alt }}">
@@ -23,7 +23,7 @@
         {% endfor %}
     </div>
 
-    <div class="media videos">
+    <div class="medias videos">
         {% for vid in trick.videos %}
             <iframe id="video{{ vid.id }}" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <script>

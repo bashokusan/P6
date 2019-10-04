@@ -13,7 +13,9 @@ class VideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', UrlType::class)
+            ->add('url', UrlType::class, [
+              'label' 	=> 'Url de la vidéo'
+            ])
         ;
     }
 

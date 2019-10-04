@@ -31,7 +31,7 @@ class TrickManageController extends AbstractController
      */
     public function index(TrickRepository $repo)
     {
-        $tricks = $repo->findBy(['author' => $this->getUser()]);
+        $tricks = $repo->findBy(['author' => $this->getUser()], ['createdAt' => 'DESC']);
 
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'TrickManageController',
@@ -63,7 +63,7 @@ class TrickManageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $trick->setSlug(Slugger::slugify($trick->getName()));
-            
+
             $files = $trick->getImages();
             foreach ($files as $img) {
                 $file = $img->getFile();

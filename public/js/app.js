@@ -1,10 +1,10 @@
 var $collectionHolder;
 var $collectionHolderVid;
-var $addNewItem = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-img'>Add new item</a>");
-var $addNewItemVideo = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-video'>Add new item</a>");
+var $addNewItem = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-img'>Ajouter une image</a>");
+var $addNewItemVideo = $("<a href='#' class='btn btn-info mb-3 add-item-button add-button-video'>Ajouter une vidéo</a>");
 
 function addRemoveButton($card){
-    var $removeButton = $("<a href='#' class='btn btn-danger'>Remove item</a>");
+    var $removeButton = $("<a href='#' class='btn btn-danger'>Supprimer</a>");
     var $cardFooter = $("<div class='card-footer'></div>").append($removeButton);
     $card.append($cardFooter);
 

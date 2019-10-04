@@ -165,6 +165,15 @@ nav li{
 		width: 100%;
 		padding: 2rem;
 	}
+
+	#medias{
+		display: none;
+	}
+
+	.loadmedias{
+		display: flex;
+		justify-content: center;
+	}
 }
 
 /* Tablet Styles */
@@ -221,5 +230,9 @@ nav li{
 
 	.trick-name{
 		padding: 2rem 0;
+	}
+
+	.loadmedias{
+		display: none;
 	}
 }

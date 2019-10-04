@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
@@ -18,6 +19,7 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message = "l'url {{ value }} est invalide")
      */
     private $url;
 
