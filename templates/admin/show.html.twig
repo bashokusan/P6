@@ -30,10 +30,21 @@
                 var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
                 var url = "{{ vid.url }}";
                 var match = url.match(regExp);
+
+                var regExpDm = /^.*(dailymotion\.com\/|v\/|u\/\w\/|embed\/|video\/)([^#\&\?]*).*/;
+                var matchDm = url.match(regExpDm);
+                
                 if (match && match[2].length == 11)
                 {
                     var id = match[2];
                     var embedlink = "http://www.youtube.com/embed/" + id;
+                    var iframe = document.getElementById("video{{ vid.id }}");
+                    iframe.src = embedlink;
+                }
+                else if (matchDm && matchDm[2].length == 7)
+                {
+                    var id = matchDm[2];
+                    var embedlink = "https://www.dailymotion.com/embed/video/" + id;
                     var iframe = document.getElementById("video{{ vid.id }}");
                     iframe.src = embedlink;
                 }
