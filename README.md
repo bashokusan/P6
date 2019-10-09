@@ -25,13 +25,25 @@
 ## Install
 
 * This application is using the [Symfony](https://symfony.com/) framework
-* Clone the project to download its contents
+1. Clone the project to download its contents
 ```
 cd projects/
 git clone ...
 ```
-* Make Composer install the project's dependencies into vendor/
+2. Make Composer install the project's dependencies into vendor/
 ```
 cd my-project/
 composer install
+```
+3. Create the database
+```
+bin/console doctrine:database:create
+```
+4. Import the tables into the database
+```
+bin/console doctrine:migrations:migrate
+```
+5. (optional) Load the fixtures
+```
+bin/console doctrine:fixtures:load
 ```

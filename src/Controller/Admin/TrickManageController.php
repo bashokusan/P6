@@ -70,6 +70,13 @@ class TrickManageController extends AbstractController
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $newFilename = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
                 $img->setSrc($newFilename);
+
+                // $path = '../Public/media/trick-'.$trick->getId();
+                // if(!file_exists($path)){
+                //   mkdir($path,0777, true);
+                // }
+                // move_uploaded_file($_FILES['image']['tmp_name'], $path . DIRECTORY_SEPARATOR . $fileName);
+
                 $file->move($this->getParameter('media_directory'), $newFilename);
             }
 

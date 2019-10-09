@@ -33,6 +33,9 @@ function addNewForm(target){
 };
 
 $(document).ready(function(){
+
+    bsCustomFileInput.init()
+
     $collectionHolder = $('#img_list');
     $collectionHolderVid = $('#vid_list');
 

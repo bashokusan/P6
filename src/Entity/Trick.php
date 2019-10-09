@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
-* @UniqueEntity(fields={"name"}, message="There is already a trick with this name")
+ * @UniqueEntity(fields={"name"}, message="Un trick avec ce nom existe déjà")
  */
 class Trick
 {
@@ -23,13 +23,13 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\length(min = 2, max = 50, minMessage = "Le nom du trick doit faire au moins {{ limit }} caractères", maxMessage = "Le nom du trick ne doit pas faire plus de {{ limit }} caractères")
+     * @Assert\Length(min = 2, max = 50, minMessage = "Le nom du trick doit faire au moins {{ limit }} caractères", maxMessage = "Le nom du trick ne doit pas faire plus de {{ limit }} caractères")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\length(min = 6, minMessage = "La description doit faire au moins {{ limit }} caractères")
+     * @Assert\Length(min = 6, minMessage = "La description doit faire au moins {{ limit }} caractères")
      */
     private $description;
 

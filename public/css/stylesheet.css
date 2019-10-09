@@ -86,7 +86,12 @@ nav li{
 
 .trick-picture{
 	max-width: 100%;
+	max-height: 400px;
 	margin: auto;
+}
+
+.badge{
+	font-size: 1rem !important;
 }
 
 .medias{
@@ -94,6 +99,7 @@ nav li{
 	clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
 	padding: 5rem 0 !important;
 	margin: 0 !important;
+	align-items: center;
 }
 
 .media{
@@ -234,5 +240,9 @@ nav li{
 
 	.loadmedias{
 		display: none;
+	}
+
+	.medias{
+		height: 600px;
 	}
 }
