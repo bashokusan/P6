@@ -21,6 +21,7 @@ class ImageType extends AbstractType
             ->add('file', FileType::class, [
                 'label' 	=> false,
                 'required' => false,
+                'error_bubbling' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

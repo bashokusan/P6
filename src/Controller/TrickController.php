@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\TrickRepository;
 use App\Form\CommentType;
 use App\Entity\Trick;
@@ -54,8 +55,10 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}", name="trick_show")
      */
-    public function trickShow(Trick $trick, Request $request)
+    public function trickShow(Trick $trick, Request $request, SessionInterface $session)
     {
+        $session->set('_security.main.target_path', $request->getUri());
+
         $comment = new Comment();
         $comment->setAuthor($this->getUser());
         $comment->setTrick($trick);

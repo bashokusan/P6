@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -33,6 +34,14 @@ class Image
      */
     private $trick;
 
+    /**
+     * @Assert\File(
+     *    maxSize = "2M",
+     *    maxSizeMessage = "Votre image doit faire moins de 1mo",
+     *    mimeTypes = {"application/jpg", "application/png", "application/png"},
+     *    mimeTypesMessage = "Le fichier n'est pas au bon format"
+     * )
+     */
     private $file;
 
     public function getFile()
