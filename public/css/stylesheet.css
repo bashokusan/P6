@@ -125,14 +125,26 @@ nav li{
 	text-align: center;
 }
 
+.card-body .custom-file-label{
+	opacity: 0;
+}
+
+.card-body .custom-file input{
+	width: 100%;
+}
+
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
+	.main-content{
+		margin-bottom: 5rem;
+	}
+
 	nav{
 		position: fixed !important;
 		right: 0;
 		left: 0;
 		bottom: 0;
-		z-index: 99;
+		z-index: 1030;
 		background-color: #343a40;
 	}
 

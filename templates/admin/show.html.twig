@@ -5,17 +5,20 @@
 {% block body %}
 <div class="container mt-5">
     <div class="trick-name col-12">
-        <h1>{{ trick.name }}</h1>
+        <h2>Nom du trick : {{ trick.name }}</h2>
         <p>
           <em>Posté le {{ trick.createdAt | date('d/m/Y') }}</em>
           {% if trick.updatedAt %}
           <em>Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}</em>
           {% endif %}
         </p>
+        <a href="{{ path('trick_show', {'slug': trick.slug})}}">Voir en contexte <i class="fas fa-arrow-alt-circle-right"></i></a> 
     </div>
     {{ include('admin/_action.html.twig') }}
-
-    <div class="medias row container-fluid bg-dark" id="medias">
+    <div class="trick-name">
+        <h2>Medias :</h2>
+    </div>
+    <div class="medias row container-fluid bg-dark">
         {% if trick.images | length > 0 %}
         <div class="{% if trick.videos | length == 0 %}col-lg-12{% else %}col-lg-7{% endif %} col-md-12">
             <div id="carousel" class="carousel slide mt-3 mb-2" data-ride="carousel">
@@ -91,7 +94,9 @@
         {% endif %}
     </div>
 
-
-    <p>{{ trick.description | nl2br }}</p>
+    <div class="trick-name mb-5">
+        <h2>Description :</h2>
+        <p>{{ trick.description | nl2br }}</p>
+    </div>
 </div>
 {% endblock %}
