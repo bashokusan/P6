@@ -15,6 +15,8 @@ use App\Entity\User;
 class SecurityController extends AbstractController
 {
     /**
+     * Login Page
+     *
      * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -32,6 +34,10 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * Forgotten Password Page
+     * Create a token for the user and save it into the database
+     * Send an email with a url with the token in param
+     *
      * @Route("/forgottenPassword", name="app_forgotten_password")
      */
     public function forgottenPassword(Request $request, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer)
@@ -78,6 +84,9 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * Reset Password Page
+     * Get the token from the url from the email and verify it with the one saved in the database
+     *
      * @Route("/resetPassword", name="app_reset_password")
      */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder)

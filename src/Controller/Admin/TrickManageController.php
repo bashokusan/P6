@@ -27,6 +27,8 @@ use Symfony\Component\Filesystem\Filesystem;
 class TrickManageController extends AbstractController
 {
     /**
+     * Dashboard Page
+     *
      * @Route("/", name="trick_admin")
      */
     public function index(TrickRepository $repo)
@@ -51,6 +53,8 @@ class TrickManageController extends AbstractController
     }
 
     /**
+     * Create New Trick Page
+     *
      * @Route("/new", name="trick_admin_new")
      */
     public function new(Request $request)
@@ -94,6 +98,9 @@ class TrickManageController extends AbstractController
     }
 
     /**
+     * Trick Detail Page
+     * Access only for logged user
+     *
      * @Route("/edit/{id}", name="trick_admin_edit")
      */
     public function edit(Trick $trick, Request $request)
@@ -130,6 +137,9 @@ class TrickManageController extends AbstractController
     }
 
     /**
+     * Delete Trick
+     * Access only for logged user
+     * 
      * @Route("/delete/{id}", name="trick_admin_delete", methods="DELETE")
      */
     public function delete(Trick $trick, Request $request, Filesystem $filesystem)
@@ -149,6 +159,8 @@ class TrickManageController extends AbstractController
 
 
     /**
+     * Create new category page
+     *
      * @Route("/category/new", name="category_new")
      */
     public function newCategory(Request $request)

@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Unit test for the app utils.
+ * Test if function slufigy works.
  *
  * execute with vendor/bin/simple-phpunit
  * or bin/phpunit tests/Util/SluggerTest.php

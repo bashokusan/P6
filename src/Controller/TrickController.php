@@ -14,6 +14,8 @@ use App\Entity\Comment;
 class TrickController extends AbstractController
 {
     /**
+     * Home page of the website
+     *
      * @Route("/", name="tricks")
      */
     public function index(TrickRepository $repo)
@@ -53,6 +55,8 @@ class TrickController extends AbstractController
     }
 
     /**
+     * Individual trick page
+     *
      * @Route("/trick/{slug}", name="trick_show")
      */
     public function trickShow(Trick $trick, Request $request, SessionInterface $session)

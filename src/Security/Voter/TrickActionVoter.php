@@ -10,7 +10,6 @@ class TrickActionVoter extends Voter
 {
     protected function supports($attribute, $subject)
     {
-        // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, ['TRICK_EDIT', 'TRICK_DELETE'])
             && $subject instanceof \App\Entity\Trick;
@@ -24,7 +23,7 @@ class TrickActionVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
+        // For each case, return true if subjet author is the user
         switch ($attribute) {
             case 'TRICK_EDIT':
                 return $subject->getAuthor()->getId() == $user->getId();

@@ -15,6 +15,10 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class RegistrationController extends AbstractController
 {
     /**
+     * Registration Page
+     * Create a token for the user and save it into the database
+     * Send an email with a url with the token in param
+     *
      * @Route("/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, \Swift_Mailer $mailer): Response
@@ -59,6 +63,8 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * Get the token from the url from the email and verify it with the one saved in the database
+     *
      * @Route("/confirm", name="confirm")
      */
     public function confirm(Request $request, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator)

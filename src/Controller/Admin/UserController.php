@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UserController extends AbstractController
 {
     /**
+     * User Profile Page
+     * 
      * @Route("/profile/{pseudo}", name="profile")
      */
     public function index(User $user, Request $request)

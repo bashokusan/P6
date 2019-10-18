@@ -12,6 +12,10 @@ use App\Entity\Category;
 use App\Utils\Slugger;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class which create fake data
+ * Create 6 users, 7 named categories, 9 tricks with 5 images max and between 0 and 5 comments
+ */
 class TrickFixtures extends Fixture
 {
     private $encoder;

@@ -3,6 +3,8 @@
 namespace App\Utils;
 
 /**
+ * This function tranform spaces into - in strings
+ * Used in Trick Entity for slug
  */
 class Slugger
 {
