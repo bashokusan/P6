@@ -18,6 +18,12 @@ body{
 .main-container{
 	background-color: #7fffb8;
 	display: flex;
+	width: 100%;
+}
+
+.row{
+	margin-right: 0 !important;
+	margin-left: 0 !important;
 }
 
 .heroimg{
